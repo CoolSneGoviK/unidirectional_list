@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 
-    List N;
+    List<int> N; // класс подключился, тут выбрал тип int 
     system("pause");
     return 0;
 }
