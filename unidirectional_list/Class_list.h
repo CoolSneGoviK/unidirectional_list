@@ -6,7 +6,9 @@ class List
 public:
 	List(); // объявление, конструктор по умолчанию ничего не делает
 	//~List();
-	void add_element(T data); // добавление элемента
+
+	void add_element(T data); // добавление элемента в конец списка
+	void add_start(T data); // добавление в начало
 
 private:
 
@@ -27,6 +29,13 @@ private:
 	int Size = 0;
 };
 
+template<class T>
+void List<T>::add_start(T data)
+{
+	head = new Node<T>(data, head); // это добавление в начало списка элемента
+	Size++;
+};
+
 template <class T>
 List<T>::List()
 {}; // определение - пустое, по умолчанию ничего не происходит
@@ -39,4 +48,18 @@ void List<T>::add_element(T data)
 		this->head = new Node<T>(data);
 		this->Size++;
 	}
-};
+	else
+	{
+		Node<T>* first_element = head; // сохраняем указатель на первый элемент
+		while (head->Next)
+		{
+			head = head->Next;
+		}
+
+		head->Next = new Node<T>(data);
+		head = first_element;
+		Size++;
+	}
+}
+
+
