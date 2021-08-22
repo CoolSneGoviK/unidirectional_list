@@ -1,5 +1,8 @@
 #pragma once // для подключения заголовочного файла один раз
 
+#include <iostream> 
+using namespace std;
+
 template <class T> // template - шаблон
 class List
 {
@@ -11,8 +14,8 @@ public:
 	void add_start(T data); // добавление в начало
 	// метод - добавление элемента по индексу
 
-	// метод - вывод элементов всех
-	 
+	void show_list(); // вывод элементов всех
+
 	// метод - поменять местами элементы (их значения по сути)  
 	
 	// метод - удаление элемента (первого, последнего, по индексу)
@@ -20,16 +23,17 @@ public:
 
 private:
 
-	template <class T>
-	class Node
+	template <class T> // класс - узел
+	class Node 
 	{ // узел - из узлов состоит список
 	public:
 		Node(T data = T(), Node<T>* next = nullptr) // принимает данные и указатель на следующий узел в списке
 		{
 			this->data = data;
+			this->Next = next;
 		}
 
-		Node* Next;
+		Node* Next = nullptr;
 		T data;
 	};
 
@@ -37,7 +41,7 @@ private:
 	int Size = 0;
 };
 
-template<class T>
+template<class T> // добавление в начало
 void List<T>::add_start(T data)
 {
 	head = new Node<T>(data, head); // это добавление в начало списка элемента
@@ -48,7 +52,7 @@ template <class T>
 List<T>::List()
 {}; // определение - пустое, по умолчанию ничего не происходит
 
-template<class T>
+template<class T> // добавление элемента в конец
 void List<T>::add_element(T data)
 {
 	if (this->head == nullptr)
@@ -70,4 +74,15 @@ void List<T>::add_element(T data)
 	}
 }
 
+template <class T> // вывод всех элементов на экран
+void List<T>::show_list() 
+{
+	Node<T>* first_element = head; // сохраняем указатель на первый элемент
+	while (head->Next)
+	{
+		cout << head->data << " ";
+		head = head->Next;
+	}
+	head = first_element;
+}
 
