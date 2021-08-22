@@ -16,7 +16,9 @@ int main()
     N.add_element(25);
 
     N.show_list();
-    N.swap(2,3);
+    //N.add_by_index(1, 1000); // работает
+    // N.swap(2,3); // работает - ок, порядок
+    //cout << N[2] << endl; // работает
     //cout << N.index_value(2) << " - data index 2" << endl;
     //N.index_value(2)++; // получаем ссылку на значение - работает
     N.show_list();
