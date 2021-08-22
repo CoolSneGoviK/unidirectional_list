@@ -12,12 +12,13 @@ public:
 
 	void add_element(T data); // добавление элемента в конец списка
 	void add_start(T data); // добавление в начало
-	// метод - добавление элемента по индексу
 
+	// метод - добавление элемента по индексу
+	T& index_value(int index = 0); // получение значения элемента по индексу
 	void show_list(); // вывод элементов всех
 
-	// метод - поменять местами элементы (их значения по сути)  
-	
+	void swap(int index1 = 0, int index2 = 1); // поменять местами элементы (их значения по сути)
+
 	// метод - удаление элемента (первого, последнего, по индексу)
 	// метод - удаление всех элементов (вызвать в деструкторе списка)
 
@@ -84,5 +85,31 @@ void List<T>::show_list()
 		head = head->Next;
 	}
 	head = first_element;
+	cout << endl;
 }
 
+template <class T> // возвращает данные элемента по индексу
+T& List<T>::index_value(int index) 
+{ 
+	int counter = 0;
+	Node<T>* first_element = head; // сохраняем указатель на первый элемент
+	while (head->Next) 
+	{
+		if (counter == index) 
+		{
+			Node<T>* current = head;
+			head = first_element;
+			return current->data; // возвращается значение или ссылка на него решается в объявлении функции
+		}
+		head = head->Next;
+		counter++;
+	}
+}
+
+template <class T> // меняем местами значения двух элементов
+void List<T>::swap(int index1, int index2) 
+{
+	int t = index_value(index1); // получили значение первого
+	index_value(index1) = index_value(index2); // присвоили первому значение второго
+	index_value(index2) = t; // второму значение первого
+}
