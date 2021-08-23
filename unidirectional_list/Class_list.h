@@ -93,7 +93,7 @@ void List<T>::add_by_index(int index, T data)
 
 	if (index == Size)
 	{ // добавим в конец списка элемент 
-		add_last();
+		add_element();
 		return;
 	}
 
