@@ -15,7 +15,7 @@ public:
 
 	void add_element(T data); // добавление элемента в конец списка 
 	void add_start(T data); // добавление в начало 
-	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу, проверить если список пуст!!!
+	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу 
 	
 	T& index_value(int index = 0); // получение значения элемента по индексу 
 	T& operator [] (int index); // получение по индексу с перегрузкой [] 
@@ -26,8 +26,8 @@ public:
 
 	void delete_first(); // удаление первого элемента 
 	void delete_last(); // удаление последнего 
-	void delete_by_index(int index = 0); // удаление по индексу 
-	void delete_all(); // удаление всех 
+	void delete_by_index(int index = 0); // удаление по индексу МИНУС
+	void delete_all(); // удаление всех элементов списка
 
 private:
 
@@ -49,16 +49,16 @@ private:
 	int Size = 0;
 };
 
+template <class T>
+List<T>::List()
+{}; // определение - пустое, по умолчанию ничего не происходит
+
 template<class T> // добавление в начало
 void List<T>::add_start(T data)
 {
 	head = new Node<T>(data, head); // это добавление в начало списка элемента
 	Size++;
 };
-
-template <class T>
-List<T>::List()
-{}; // определение - пустое, по умолчанию ничего не происходит
 
 template<class T> // добавление элемента в конец
 void List<T>::add_element(T data)
@@ -79,6 +79,48 @@ void List<T>::add_element(T data)
 		head->Next = new Node<T>(data);
 		head = first_element;
 		Size++;
+	}
+}
+
+template <class T> // добавление элемента по индексу, элементы считаются с 0
+void List<T>::add_by_index(int index, T data)
+{
+	if (index < 0)
+	{ 
+		cout << "error" << endl;
+		return;
+	}
+
+	if (index == Size)
+	{ // добавим в конец списка элемент 
+		add_last();
+		return;
+	}
+
+	if (index > Size - 1)
+	{
+		cout << "error" << endl;
+		return;
+	}
+
+	if (index == 0) // если индекс 0, вызывваем метод вставки в начало
+	{
+		add_start(data);
+		return;
+	}
+
+	int counter = 0;
+	Node<T>* first_element = head; // сохраняем указатель на первый элемент
+	while (head->Next)
+	{
+		if (counter == index - 1)
+		{ // за этим элементов нужно вставить новый
+			head->Next = new Node<T>(data, head->Next->Next);
+			head = first_element;
+			break;
+		}
+		head = head->Next;
+		counter++;
 	}
 }
 
@@ -104,6 +146,12 @@ void List<T>::show_list()
 template <class T> // возвращает данные элемента по индексу
 T& List<T>::index_value(int index) 
 { 
+	if (index < 0)
+	{
+		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
+		return head->data;
+	}
+
 	if (index > Size -1) 
 	{
 		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
@@ -128,6 +176,12 @@ T& List<T>::index_value(int index)
 template<class T> // возвращает данные элемента по индексу
 T& List<T>::operator[](int index)
 {
+	if (index < 0)
+	{
+		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
+		return head->data;
+	}
+
 	if (index > Size - 1)
 	{
 		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
@@ -152,6 +206,12 @@ T& List<T>::operator[](int index)
 template <class T> // меняем местами значения двух элементов
 void List<T>::swap(int index1, int index2)
 {
+	if (index1 < 0 || index2 < 0)
+	{
+		cout << "error" << endl;
+		return;
+	}
+
 	if (index1 >= Size - 1 || index2 >= Size - 1)
 	{
 		cout << "error" << endl;
@@ -161,30 +221,6 @@ void List<T>::swap(int index1, int index2)
 	int t = index_value(index1); // получили значение первого
 	index_value(index1) = index_value(index2); // присвоили первому значение второго
 	index_value(index2) = t; // второму значение первого
-}
-
-template <class T> // добавление элемента по индексу, элементы считаются с 0
-void List<T>::add_by_index(int index, T data)
-{
-	if (index == 0) // если индекс 0, вызывваем метод вставки в начало
-	{
-		add_start(data);
-		return;
-	}
-
-	int counter = 0;
-	Node<T>* first_element = head; // сохраняем указатель на первый элемент
-	while (head->Next)
-	{
-		if (counter == index - 1)
-		{ // за этим элементов нужно вставить новый
-			head->Next = new Node<T>(data, head->Next->Next);
-			head = first_element;
-			break;
-		}
-		head = head->Next;
-		counter++;
-	}
 }
 
 template <class T> // удаление первого элемента
