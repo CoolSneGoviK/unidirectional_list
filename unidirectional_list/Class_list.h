@@ -13,21 +13,21 @@ public:
 		delete_all();
 	};
 
-	void add_element(T data); // добавление элемента в конец списка +
-	void add_start(T data); // добавление в начало +
-	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу, проверить если список пуст
+	void add_element(T data); // добавление элемента в конец списка 
+	void add_start(T data); // добавление в начало 
+	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу, проверить если список пуст!!!
 	
-	T& index_value(int index = 0); // получение значения элемента по индексу // -
-	T& operator [] (int index); // получение по индексу с перегрузкой [] // -
+	T& index_value(int index = 0); // получение значения элемента по индексу 
+	T& operator [] (int index); // получение по индексу с перегрузкой [] 
 	
-	void show_list(); // вывод элементов всех +
+	void show_list(); // вывод элементов всех 
 
-	void swap(int index1 = 0, int index2 = 1); // поменять местами элементы (их значения по сути) +
+	void swap(int index1 = 0, int index2 = 1); // поменять местами элементы (их значения по сути) 
 
-	void delete_first(); // удаление первого элемента +
-	void delete_last(); // удаление последнего +
-	void delete_by_index(int index = 0); // удаление по индексу +
-	void delete_all(); // удаление всех +
+	void delete_first(); // удаление первого элемента 
+	void delete_last(); // удаление последнего 
+	void delete_by_index(int index = 0); // удаление по индексу 
+	void delete_all(); // удаление всех 
 
 private:
 
@@ -101,15 +101,14 @@ void List<T>::show_list()
 	cout << endl;
 }
 
-template <class T> // возвращает данные элемента по индексу, !!! не понятно как сделать, нужно обязательно вернуть значение
+template <class T> // возвращает данные элемента по индексу
 T& List<T>::index_value(int index) 
 { 
-	/*
 	if (index > Size -1) 
 	{
-		cout << "error" << endl;
-		return 1; // тут нужно подумать как лучше сделать
-	} */
+		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
+		return head->data; 
+	} 
 
 	int counter = 0;
 	Node<T>* first_element = head; // сохраняем указатель на первый элемент
@@ -126,15 +125,14 @@ T& List<T>::index_value(int index)
 	}
 }
 
-template<class T> // возвращает данные элемента по индексу, !!! не понятно как сделать, нужно обязательно вернуть значение
+template<class T> // возвращает данные элемента по индексу
 T& List<T>::operator[](int index)
 {
-	/* // что то тут придумать
-	if (index > Size -1)
+	if (index > Size - 1)
 	{
-		cout << "error" << endl;
-		return 1; // тут нужно подумать как лучше сделать
-	} */
+		cout << "error" << endl; // выводит ошибку в консоль и возвращает ссылку на данные первого элемента
+		return head->data;
+	}
 
 	int counter = 0;
 	Node<T>* first_element = head; // сохраняем указатель на первый элемент
