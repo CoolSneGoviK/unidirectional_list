@@ -12,7 +12,7 @@ public:
 
 	void add_element(T data); // добавление элемента в конец списка
 	void add_start(T data); // добавление в начало
-	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу
+	void add_by_index(int index = 1, T data = T()); // метод - добавление элемента по индексу, проверить если список пуст
 	
 	T& index_value(int index = 0); // получение значения элемента по индексу
 	T& operator [] (int index); // получение по индексу с перегрузкой []
@@ -23,7 +23,7 @@ public:
 
 	void delete_first(); // удаление первого элемента
 	void delete_last(); // удаление последнего
-	void delete_by_index(); // удаление по индексу
+	void delete_by_index(int index = 0); // удаление по индексу
 	void delete_all(); // удаление всех, его в деструктор листа добавить
 
 private:
@@ -82,6 +82,12 @@ void List<T>::add_element(T data)
 template <class T> // вывод всех элементов на экран
 void List<T>::show_list() 
 {
+	if (Size == 0) 
+	{
+		cout << "the list is empty " << endl;
+		return;
+	}
+
 	Node<T>* first_element = head; // сохраняем указатель на первый элемент
 	while (head->Next)
 	{
@@ -136,7 +142,7 @@ void List<T>::swap(int index1, int index2)
 	index_value(index2) = t; // второму значение первого
 }
 
-template <class T> // добавление элемента по индексу
+template <class T> // добавление элемента по индексу, элементы считаются с 0
 void List<T>::add_by_index(int index, T data)
 {
 	if (index == 0) // если индекс 0, вызывваем метод вставки в начало
@@ -160,3 +166,97 @@ void List<T>::add_by_index(int index, T data)
 	}
 }
 
+template <class T> // удаление первого элемента
+void List<T>::delete_first()
+{
+	if (Size == 0) 
+	{
+		return;
+	}
+
+	if (Size == 1)
+	{
+		delete head;
+		head = nullptr;
+		Size--;
+		return;
+	}
+
+	Node<T>* delete_elem = head;
+	head = head->Next;
+	delete delete_elem;
+	Size--;
+};
+
+template <class T> // удаление последнего элемента
+void List<T>::delete_last() 
+{
+	if (Size == 0) 
+	{
+		return;
+	}
+
+	if (Size == 1)
+	{
+		delete head;
+		head = nullptr;
+		Size--;
+		return;
+	}
+
+	Node<T>* first_element = head; // сохраняем указатель на первый элемент
+	while (head->Next)
+	{ 
+		if (head->Next->Next == nullptr)
+		{ // значит нашли предпоследний элемент
+			delete head->Next;
+			head->Next = nullptr;
+			head = first_element;
+			break;
+		}
+		head = head->Next;
+	}
+	Size--;
+}
+
+template <class T> // удаление элемент по индексу, элементы считаются с 0
+void List<T>::delete_by_index(int index)
+{ 
+	if (index > Size - 1) 
+	{
+		cout << "error" << endl;
+		return;
+	}
+
+	if (index == 0) 
+	{
+		delete_first();
+		return;
+	} 
+
+	int counter = 0; 
+	Node<T>* first_element = head; // сохраняем указатель на первый элемент
+	while (head->Next)
+	{
+		if (counter == index - 1)
+		{ // элемент после которого нужно удалить
+			Node<T>* delete_element = head->Next; // этот элемент нужно удалить
+			head->Next = head->Next->Next;
+			delete delete_element;
+			head = first_element;
+			Size--;
+			break;
+		}
+		head = head->Next;
+		counter++;
+	}
+};
+
+template <class T> //удаление всех елементов из списка
+void List<T>::delete_all() 
+{
+	while (Size)
+	{
+		delete_first();
+	}
+}
